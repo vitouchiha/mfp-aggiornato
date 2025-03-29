@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git && rm -rf /var/lib/apt/lists/*
 
 # Clone il repository
-RUN git clone https://github.com/mhdzumair/mediaflow-proxy.git /mediaflow_proxy
+RUN git clone https://github.com/vitouchiha/mfp-aggiornato.git /mediaflow_proxy
 
 # Create a non-root user
 RUN useradd -m mediaflow_proxy
@@ -40,7 +40,7 @@ RUN poetry config virtualenvs.in-project true \
 COPY --chown=mediaflow_proxy:mediaflow_proxy . /mediaflow_proxy
 
 # Expose the port the app runs on
-EXPOSE 9888
+EXPOSE 8888
 
 # Activate virtual environment and run the application with Gunicorn
 CMD ["poetry", "run", "gunicorn", "mediaflow_proxy.main:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9888", "--timeout", "120", "--max-requests", "500", "--max-requests-jitter", "200", "--access-logfile", "-", "--error-logfile", "-", "--log-level", "info"]
